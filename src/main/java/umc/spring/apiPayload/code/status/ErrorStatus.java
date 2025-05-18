@@ -20,8 +20,9 @@ public enum ErrorStatus implements BaseErrorCode {
 
     ARTICLE_NOT_FOUND(HttpStatus.NOT_FOUND, "ARTICLE4001", "게시글이 없습니다."),
 
-    TEMP_EXCEPTION(HttpStatus.BAD_REQUEST, "TEMP4001", "이거는 테스트");
+    ALREADY_COMPLETED(HttpStatus.BAD_REQUEST, "MISSION4001", "미션이 이미 진행되었습니다."),
 
+    TEMP_EXCEPTION(HttpStatus.BAD_REQUEST, "TEMP4001", "이거는 테스트");
 
 
 
