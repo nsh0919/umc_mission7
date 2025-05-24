@@ -22,6 +22,10 @@ public class MemberMission extends BaseEntity {
     @Column(columnDefinition = "VARCHAR(15) DEFAULT 'CHALLENGING'")
     private MissionStatus status;
 
+    public void setStatus(MissionStatus status) {
+        this.status = status;
+    }
+
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "member_id")
     private Member member;

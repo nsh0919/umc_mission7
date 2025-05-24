@@ -4,6 +4,7 @@ import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Size;
 import lombok.Getter;
+import umc.spring.domain.enums.MissionStatus;
 import umc.spring.validation.annotation.ExistCategories;
 
 import java.util.List;
@@ -28,6 +29,11 @@ public class MemberRequestDTO {
         String specAddress;
         @ExistCategories
         List<Long> preferCategory;
+    }
+
+    @Getter
+    public static class MissionCompleteRequestDTO {
+        private MissionStatus status;
     }
 
 }
