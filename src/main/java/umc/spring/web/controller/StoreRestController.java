@@ -15,6 +15,7 @@ import umc.spring.converter.StoreConverter;
 import umc.spring.domain.Review;
 import umc.spring.service.StoreService.StoreQueryService;
 import umc.spring.validation.annotation.ExistStore;
+import umc.spring.validation.annotation.ValidPage;
 import umc.spring.web.dto.StoreResponseDTO;
 
 @RestController
@@ -26,7 +27,7 @@ public class StoreRestController {
     private final StoreQueryService storeQueryService;
 
     @GetMapping("/{storeId}/reviews")
-    @Operation(summary = "특정 가게의 리뷰 목록 조회 API",description = "특정 가게의 리뷰들의 목록을 조회하는 API이며, 페이징을 포함합니다. query String 으로 page 번호를 주세요")
+    @Operation(summary = "특정 가게의 리뷰 목록 조회 API",description = "특정 가게의 리뷰들의 목록을 조회하는 API이며, 페이징을 포함합니다. query String 으로 page 번호 필요하고 만약 자신이 작성한 리뷰 조회가 필요한 경우 memberId 첨부")
     @ApiResponses({
             @io.swagger.v3.oas.annotations.responses.ApiResponse(responseCode = "COMMON200",description = "OK, 성공"),
             @io.swagger.v3.oas.annotations.responses.ApiResponse(responseCode = "AUTH003", description = "access 토큰을 주세요!",content = @Content(schema = @Schema(implementation = ApiResponse.class))),
@@ -36,8 +37,22 @@ public class StoreRestController {
     @Parameters({
             @Parameter(name = "storeId", description = "가게의 아이디, path variable 입니다!")
     })
-    public ApiResponse<StoreResponseDTO.ReviewPreViewListDTO> getReviewList(@ExistStore @PathVariable(name = "storeId") Long storeId, @RequestParam(name = "page") Integer page){
-        Page<Review> reviewList = storeQueryService.getReviewList(storeId,page);
+    public ApiResponse<StoreResponseDTO.ReviewPreViewListDTO> getReviewList(
+            @ExistStore @PathVariable(name = "storeId") Long storeId,
+            @RequestParam(name = "memberId", required = false) Long memberId,
+            @ValidPage @RequestParam(name = "page") Integer page)  {
+
+        Page<Review> reviewList;
+
+        if (memberId == null) {
+            reviewList = storeQueryService.getReviewList(storeId,page-1);
+        }
+        else {
+            reviewList = storeQueryService.getMyReviewList(storeId,memberId,page-1);
+        }
+
         return ApiResponse.onSuccess(StoreConverter.reviewPreViewListDTO(reviewList));
     }
+
+
 }
