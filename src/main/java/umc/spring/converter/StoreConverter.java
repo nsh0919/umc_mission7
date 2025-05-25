@@ -1,6 +1,7 @@
 package umc.spring.converter;
 
 import org.springframework.data.domain.Page;
+import umc.spring.domain.Mission;
 import umc.spring.domain.Review;
 import umc.spring.web.dto.StoreResponseDTO;
 
@@ -33,4 +34,29 @@ public class StoreConverter {
 
 
     }
+
+    public static StoreResponseDTO.MissionPreViewDTO missionPreViewDTO(Mission mission){
+        return StoreResponseDTO.MissionPreViewDTO.builder()
+                .missionSpec(mission.getMissionSpec())
+                .reward(mission.getReward())
+                .deadline(mission.getDeadline())
+                .storeId(mission.getStore().getId())
+                .build();
+    }
+
+    public static StoreResponseDTO.MissionPreViewListDTO missionPreViewListDTO(Page<Mission> missionList){
+
+        List<StoreResponseDTO.MissionPreViewDTO> missionPreViewDTOList = missionList.stream()
+                .map(StoreConverter::missionPreViewDTO).collect(Collectors.toList());
+
+        return StoreResponseDTO.MissionPreViewListDTO.builder()
+                .isLast(missionList.isLast())
+                .isFirst(missionList.isFirst())
+                .totalPage(missionList.getTotalPages())
+                .totalElements(missionList.getTotalElements())
+                .listSize(missionPreViewDTOList.size())
+                .missionList(missionPreViewDTOList)
+                .build();
+    }
+
 }
