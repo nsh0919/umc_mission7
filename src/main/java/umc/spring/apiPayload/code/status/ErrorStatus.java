@@ -2,6 +2,7 @@ package umc.spring.apiPayload.code.status;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 import org.springframework.http.HttpStatus;
 import umc.spring.apiPayload.code.BaseErrorCode;
 import umc.spring.apiPayload.code.ErrorReasonDTO;
@@ -17,6 +18,9 @@ public enum ErrorStatus implements BaseErrorCode {
 
     MEMBER_NOT_FOUND(HttpStatus.BAD_REQUEST, "MEMBER4001", "사용자가 없습니다."),
     NICKNAME_NOT_EXIST(HttpStatus.BAD_REQUEST, "MEMBER4002", "닉네임은 필수 입니다."),
+    INVALID_PASSWORD(HttpStatus.BAD_REQUEST, "MEMBER4003","유효하지 않은 비밀번호입니다."),
+    DUPLICATE_JOIN_REQUEST(HttpStatus.BAD_REQUEST, "MEMBER4004", "해당 이메일로 이미 가입된 사용자가 존재합니다."),
+    INVALID_TOKEN(HttpStatus.BAD_REQUEST, "MEMBER4005", "유효하지 않은 토큰입니다."),
 
     ARTICLE_NOT_FOUND(HttpStatus.NOT_FOUND, "ARTICLE4001", "게시글이 없습니다."),
 
@@ -24,8 +28,8 @@ public enum ErrorStatus implements BaseErrorCode {
 
     STORE_NOT_FOUND(HttpStatus.BAD_REQUEST, "STORE4001", "매장이 없습니다."),
 
-    FOOD_CATEGORY_NOT_FOUND(HttpStatus.NOT_FOUND, "Food4001","음식 카테고리가 없습니다");
-
+    FOOD_CATEGORY_NOT_FOUND(HttpStatus.NOT_FOUND, "Food4001","음식 카테고리가 없습니다")
+    ;
 
     private final HttpStatus httpStatus;
     private final String code;
